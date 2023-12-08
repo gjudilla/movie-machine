@@ -18,10 +18,13 @@
     <!-- Search Bar -->
     <div class="search-box">
         <h3>Find out more about your movie!</h3>
-        <input type="text" class="form-input" placeholder="Search Movie Title">
+          <!-- I added an ID to text-input to use in js -->
+        <input type="text" class="form-input" id="move-name" placeholder="Search Movie Title">
     </div>
 <!-- Search Parameters runtime director writers awards -->
     <div class="search-options">
+        <!-- We should probably either take the title input out as an option, since every search must have a title, or we could give it the attribute required and leave it in.  -->
+
         <input type="checkbox" class="check-input" id="title" checked>
         <label for="title">Title</label>
         <input type="checkbox" class="check-input" id="actors" checked>
@@ -29,6 +32,7 @@
         <input type="checkbox" class="check-input" id="plot" checked>
             <label for="plot">Plot</label>
         <input type="checkbox" class="check-input" id="poster" checked>
+                <!-- We might also want to take the poster option out, and always fetch the poster (or give it a required attribute). We don't have to do that, but it could make our display more consistent if we know the poster will be displayed. Of course there might be some movies without a poster available so maybe we should leave it as is-->
             <label for="poster">Poster</label>
         <input type="checkbox" class="check-input" id="rating" checked>
             <label for="rating">Rating</label>
