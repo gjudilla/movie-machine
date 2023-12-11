@@ -39,3 +39,19 @@ const storeMovieName = (movieToStore) => {
     // THIS FUNCTIN NEEDS TO BE WRITEN AND IF WE WANT TO HAVE A DEFAULT MOVIE IT NEEDS TO ALSO BE CALLED IN THE GLOBAL SPACE
     displayPreviousMovies();
 }
+
+var movieNameTest = "Star Wars"
+var movieNameTestArray = [];
+fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieNameTest)
+    .then(res => res.json())
+    .then(data => {
+        movieNameTestArray = data;
+    })
+    
+    .then(() => { 
+        console.log(movieNameTestArray);
+    })
+   
+
+    
+
