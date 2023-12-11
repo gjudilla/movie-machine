@@ -50,8 +50,14 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieNameTest)
     
     .then(() => { 
         console.log(movieNameTestArray);
+        let movieTitle = movieNameTestArray.Title;
+        movieDisplayFxn(movieTitle);
     })
    
-
+    const movieDisplayFxn =  (movieTitle) =>
+{
+    movieDisplayDiv.textContent = movieTitle
+}    
+   
     
 
