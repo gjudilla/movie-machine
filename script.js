@@ -23,7 +23,7 @@ let movieNameTestArray = [];
 // other variables
 
 
-//2 New Functions lines 27 to ~82
+//2 New Functions lines 27 to ~92
 // #1
 // function to get all movie names previously selected by user and then display the most recent 10 in the DOM
 let displayPreviousMovies = () => {
@@ -34,7 +34,7 @@ let displayPreviousMovies = () => {
     // if movieArr exists in localStorage 1st add back the h2 for "Previous Searches", then parse the localStorage.movieArr into an array of objects
 
     const prevMovieH2 = document.createElement('h2');
-    //Add attribute class="space-y-s" to containing div, then, add text content, then append
+    //Add attribute class="space-y-s" to containing div, then add text content, then append
     prevMovieH2.setAttribute('class', 'font-semibold text-3xl font-bold mb-4');
     prevMovieH2.textContent = 'Previous Searches';
     previousMovies.append(prevMovieH2);
@@ -90,10 +90,6 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     // Call fxn to display previous movies in DOM
     displayPreviousMovies();
 }
-// NEW FXN This will be the displayPreviousMovies function
-// let displayPreviousMovies = () => {
-//     console.log('placeholder for a function');
-// }
 
 function  searchMovies (movieInput) {
 
