@@ -2,7 +2,7 @@
 console.log("I work");
 // DOM variables
 const movieDisplayDiv = document.querySelector("#movieDisplay");
-const movieName = document.querySelector("#movie-name");
+const movieTitleDOM = document.querySelector("#movie-title");
 const inputPoster = document.querySelector("#poster");
 const inputActors = document.querySelector("#actors");
 const inputPlot = document.querySelector("#plot");
@@ -13,16 +13,13 @@ const inputDirector = document.querySelector("#director");
 const inputWriters = document.querySelector("#writers");
 const inputAwards = document.querySelector("#awards");
 const searchMovie = document.querySelector("#search")
-
+const moviePosterDOMEl = document.querySelector("#moviePoster")
+// let movieTitle;
+// let moviePoster;
+// let movieSearchParams = [];
+let movieNameTestArray = [];
 // other variables
-const actors = ".Actors";
-const plot = ".Plot";
-const rating = ".Rating";
-const year = ".Year";
-const runTime = ".Runtime";
-const director = ".Director"
-const writers = ".Writers";
-const awards = ".Awards";
+
 
 
 // function to store movie name and asociated  in local storage & display it in DOM. THIS FUNCTUON WILL BE CALLED WHEN A NEW MOVIE IS SUBMITTED
@@ -48,11 +45,12 @@ const storeMovieName = (movieToStore) => {
     displayPreviousMovies();
 }
 
-function  searchMovies (movieTitle) {
-var movieNameTest = "Star Wars"
-var movieSearchParams = [];
-var movieNameTestArray = [];
-fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieNameTest)
+
+function  searchMovies (movieInput) {
+
+// let moviePoster;
+
+fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieInput)
     .then(res => res.json())
     .then(data => {
         movieNameTestArray = data;
@@ -61,42 +59,59 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieNameTest)
     .then(() => {
         console.log(movieNameTestArray);
         let movieTitle = movieNameTestArray.Title;
-        movieDisplayFxn(movieTitle);
+        let moviePoster = movieNameTestArray.Poster;
+        let movieSearchParams = [];
+        if (inputActors.checked) {
+            movieSearchParams.push(".Actors");
+        }
+        if (inputPlot.checked) {
+            movieSearchParams.push(".Plot");
+        }
+        if (inputRating.checked) {
+            movieSearchParams.push(".Rated");
+        }
+        if (inputYear.checked) {
+            movieSearchParams.push(".Year");
+        }
+        if (inputRuntime.checked) {
+            movieSearchParams.push(".Runtime");
+        }
+        if (inputDirector.checked) {
+            movieSearchParams.push(".Director");
+        }
+        if (inputWriters.checked) {
+            movieSearchParams.push(".Writer");
+        }
+        if (inputAwards.checked) {
+            movieSearchParams.push(".Awards");
+        }
+        console.log(movieSearchParams);
+        movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
+
+        
     })
 
-const movieDisplayFxn = (movieTitle) => {
+   
+    
+
+
+
+
+}
+
+const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     movieDisplayDiv.textContent = movieTitle
+    moviePosterDOMEl.setAttribute("src", moviePoster)
+    console.log(movieSearchParams);
 }
 
 
-if (inputActors.checked) {
-    movieSearchParams += actors;
-}
-if (inputPlot.checked) {
-    movieSearchParams += plot;
-}
-if (inputRating.checked) {
-    movieSearchParams += rating;
-}
-if (inputYear.checked) {
-    movieSearchParams += year;
-}
-if (inputRuntime.checked) {
-    movieSearchParams += runTime;
-}
-if (inputDirector.checked) {
-    movieSearchParams += director;
-}
-if (inputWriters.checked) {
-    movieSearchParams += writers;
-}
-if (inputAwards.checked) {
-    movieSearchParams += awards;
-}
-console.log(movieSearchParams);
+searchMovie.addEventListener("click",
+ // event listener for searchBtn
+ function (event) {
+    event.preventDefault();
+    let movieTitleChosen = movieTitleDOM.value;
+    movieTitleDOM.value = '';
+    searchMovies(movieTitleChosen);
+  }); 
 
-console.log(inputPlot);
-
-}
-
-searchMovie.addEventListener("click", searchMovies)
