@@ -17,7 +17,7 @@
   <div class="max-w-xl mx-auto p-8">
     <div class="flex items-center border-b border-teal-500 py-2">
       <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-teal-700" type="text" placeholder="Search Movie Title" aria-label="Movie title">
-      <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
+      <button id="search" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
         Search
       </button>
     </div>
@@ -31,42 +31,42 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Actors</span>
+                  <input id= "actors" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Actors</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Plot</span>
+                  <input id="plot" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Plot</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Rating</span>
+                  <input id= "rating" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Rating</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Year</span>
+                  <input id = "year" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Year</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Run Time</span>
+                  <input id="run-time" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Run Time</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Director</span>
+                  <input id="director" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Director</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Writers</span>
+                  <input id="writers" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Writers</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Awards</span>
+                  <input id="awards" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Awards</span>
                 </label>
               </div>
         </form>
