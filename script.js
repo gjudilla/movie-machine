@@ -90,13 +90,7 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieInput)
 
         
     })
-
    
-    
-
-
-
-
 }
 
 const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
@@ -104,7 +98,6 @@ const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     moviePosterDOMEl.setAttribute("src", moviePoster)
     console.log(movieSearchParams);
 }
-
 
 searchMovie.addEventListener("click",
  // event listener for searchBtn
