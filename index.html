@@ -16,7 +16,7 @@
   <!-- Search Bar -->
   <div class="max-w-xl mx-auto p-8">
     <div class="flex items-center border-b border-teal-500 py-2">
-      <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-teal-700" type="text" placeholder="Search Movie Title" aria-label="Movie title">
+      <input id="movie-title" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-teal-700" type="text" placeholder="Search Movie Title" aria-label="Movie title">
       <button id="search" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
         Search
       </button>
@@ -27,16 +27,16 @@
     <div class="search-options">
         <!-- We should probably either take the title input out as an option, since every search must have a title, or we could give it the attribute required and leave it in.  -->
 
-        <div class="max-w-xl mx-auto p-8">
+        <div class="max-w-xl mx-auto p-6">
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input id= "actors" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Actors</span>
+                  <input id="plot" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Plot</span>
                 </label>
               </div>
               <div>
                 <label class="inline-flex items-center mt-3">
-                  <input id="plot" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" checked><span class="ml-2 text-gray-700">Plot</span>
+                  <input id= "actors" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2 text-gray-700">Actors</span>
                 </label>
               </div>
               <div>
@@ -83,22 +83,28 @@
         <button>blah</button>
         </div>
     </div>
-    <div>
-        <h1>Movie Details:</h1>
-    
-    <h2 id="movieDisplay"></h2>
-    <img id="moviePoster" src="" alt="Movie Poster" />
-    <ul>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-        <li id=""></li>
-    </ul>
-</div>
+    <!-- Movie Details and Poster Section -->
+    <!-- Column 1: Includes Search Details and Movie Details Header -->
+    <div class="flex justify-evenly border-t-2 border-teal-500">
+      <div class="w-3/4 p4">
+      <h1 class="font-semibold text-2xl">Movie Details:</h1>
+      <h2 id="movieDisplay"></h2>
+      <ul class="py-2">
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+        <li id="">la</li>
+      </ul>
+      </div>
+    <!-- Column 2: Includes Movie Poster -->
+      <div class="w-1/4 py-10">
+      <img class="h-auto" id="moviePoster" src="https://placehold.co/400x500" alt="Movie Poster" />
+      </div>
+    </div>
 
 <script src='./script.js'></script>
 </body>
