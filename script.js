@@ -22,7 +22,7 @@ let movieNameTestArray = [];
 
 
 
-// function to store movie name and asociated  in local storage & display it in DOM. THIS FUNCTUON WILL BE CALLED WHEN A NEW MOVIE IS SUBMITTED
+// function to store movie name and asociated info in local storage & call new fxn to display last 10 searched movies in DOM. This fxn to be called each time a new movie is searched for.
 const storeMovieName = (movieToStore) => {
     let storageObj = {
         movieName: `${movieToStore}`
@@ -104,7 +104,6 @@ const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     moviePosterDOMEl.setAttribute("src", moviePoster)
     console.log(movieSearchParams);
 }
-
 
 searchMovie.addEventListener("click",
  // event listener for searchBtn
