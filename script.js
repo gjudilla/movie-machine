@@ -2,7 +2,7 @@
 console.log("I work");
 // DOM variables
 const movieDisplayDiv = document.querySelector("#movieDisplay");
-const movieName = document.querySelector("#movie-name");
+const movieTitleDOM = document.querySelector("#movie-title");
 const inputPoster = document.querySelector("#poster");
 const inputActors = document.querySelector("#actors");
 const inputPlot = document.querySelector("#plot");
@@ -49,10 +49,10 @@ const storeMovieName = (movieToStore) => {
 }
 
 function  searchMovies (movieTitle) {
-var movieNameTest = "Star Wars"
-var movieSearchParams = [];
-var movieNameTestArray = [];
-fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieNameTest)
+
+let movieSearchParams = [];
+let movieNameTestArray = [];
+fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieTitle)
     .then(res => res.json())
     .then(data => {
         movieNameTestArray = data;
@@ -99,4 +99,11 @@ console.log(inputPlot);
 
 }
 
-searchMovie.addEventListener("click", searchMovies)
+searchMovie.addEventListener("click",
+ // event listener for searchBtn
+ function (event) {
+    event.preventDefault();
+    let movieTitleChosen = movieTitleDOM.value;
+    movieTitleDOM.value = '';
+    searchMovies(movieTitleChosen);
+  }); 
