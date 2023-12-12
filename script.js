@@ -22,16 +22,18 @@ let movieNameTestArray = [];
 
 
 
-// function to store movie name and asociated info in local storage & call new fxn to display last 10 searched movies in DOM. This fxn to be called each time a new movie is searched for.
-const storeMovieName = (movieToStore) => {
+// function to store movie name, and associated info, in local storage & call new fxn to display last 10 searched movies in DOM. The display fxn to be called each time a new movie is searched for.
+const storeMovieName = (movieToStore, poster, domOptions) => {
     let storageObj = {
-        movieName: `${movieToStore}`
+        movieNameStored: `${movieToStore}`,
+        options: `${domOptions}`,
+        posterUrl: `${poster}`
     }
-    // existingmovieArr will get an array of onjects from local storage, or if empty will add Django as only member of the array (if we prefer not to have a default movie on loading we can take this out)
-    const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [{ "movieName": "Django" }];
+    // existingmovieArr will get an array of onjects from local storage, or if empty will give empty array. We can add another movie as only member of the array if we prefer to have a default movie on loading)
+    const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [];
     // check to see if movie already exists in localStorage and if so do not store again.
-    for (let i = 0; i < existingMovieArr.length; i++) {
-        if (movieToStore === existingMovieArr[i].movieName) {
+    for(let i = 0; i < existingMovieArr.length; i++) {
+        if(movieToStore === existingMovieArr[i].movieNameStored) {
             return;
         }
     }
@@ -39,11 +41,37 @@ const storeMovieName = (movieToStore) => {
     const newMovieArr = [...existingMovieArr, storageObj];
     localStorage.setItem('movieArr', JSON.stringify(newMovieArr));
     // clear movieDiv of current contents to avoid duplicates, then call displayPreviousMovies() to fill this DIV with all movies in localStorage (most recently stored movie will be last).
-    movieDiv.innerHTML = "";
+    // THIS DIV NO LONGER EXISTS
+    // movieDiv.innerHTML = "";
 
-    // THIS FUNCTIN NEEDS TO BE WRITEN AND IF WE WANT TO HAVE A DEFAULT MOVIE IT NEEDS TO ALSO BE CALLED IN THE GLOBAL SPACE
     displayPreviousMovies();
 }
+// NEW This will be the displayPreviousMovies function
+let displayPreviousMovies = () => {
+    console.log('placeholder for a function');
+}
+//XXXXXXXXXXXXXXXXX
+// const storeMovieName = (movieToStore) => {
+//     let storageObj = {
+//         movieName: `${movieToStore}`
+//     }
+    // existingmovieArr will get an array of onjects from local storage, or if empty will add Django as only member of the array (if we prefer not to have a default movie on loading we can take this out)
+    // const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [{ "movieName": "Django" }];
+    // check to see if movie already exists in localStorage and if so do not store again.
+    // for (let i = 0; i < existingMovieArr.length; i++) {
+    //     if (movieToStore === existingMovieArr[i].movieName) {
+    //         return;
+    //     }
+    // }
+    // if current movie is a new movie add it as an object to current array and set that array as the new localStorage array
+    // const newMovieArr = [...existingMovieArr, storageObj];
+    // localStorage.setItem('movieArr', JSON.stringify(newMovieArr));
+    // clear movieDiv of current contents to avoid duplicates, then call displayPreviousMovies() to fill this DIV with all movies in localStorage (most recently stored movie will be last).
+    // movieDiv.innerHTML = "";
+
+    // THIS FUNCTIN NEEDS TO BE WRITEN AND IF WE WANT TO HAVE A DEFAULT MOVIE IT NEEDS TO ALSO BE CALLED IN THE GLOBAL SPACE
+//     displayPreviousMovies();
+// }
 
 
 function  searchMovies (movieInput) {
@@ -86,7 +114,8 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieInput)
             movieSearchParams.push(".Awards");
         }
         console.log(movieSearchParams);
-        movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
+        storeMovieName(movieTitle, moviePoster, movieSearchParams);
+        movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
 
         
     })
