@@ -2,6 +2,8 @@
 console.log("I work");
 // DOM variables
 const movieDisplayDiv = document.querySelector("#movieDisplay");
+// New DOM element
+const previousMovies = document.querySelector("previousSearches");
 const movieTitleDOM = document.querySelector("#movie-title");
 const inputPoster = document.querySelector("#poster");
 const inputActors = document.querySelector("#actors");
@@ -21,7 +23,7 @@ let movieNameTestArray = [];
 // other variables
 
 
-
+//New Function
 // function to store movie name, and associated info, in local storage & call new fxn to display last 10 searched movies in DOM. The display fxn to be called each time a new movie is searched for.
 const storeMovieName = (movieToStore, poster, domOptions) => {
     let storageObj = {
@@ -46,7 +48,7 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
 
     displayPreviousMovies();
 }
-// NEW This will be the displayPreviousMovies function
+// NEW FXN This will be the displayPreviousMovies function
 let displayPreviousMovies = () => {
     console.log('placeholder for a function');
 }
@@ -111,9 +113,8 @@ const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     console.log(movieSearchParams);
 }
 
-searchMovie.addEventListener("click",
- // event listener for searchBtn
- function (event) {
+// event listener for searchBtn
+searchMovie.addEventListener("click", function (event) {
     event.preventDefault();
     let movieTitleChosen = movieTitleDOM.value;
     movieTitleDOM.value = '';
