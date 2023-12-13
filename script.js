@@ -81,6 +81,7 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     // check to see if movie already exists in localStorage and if so do not store again.
     for(let i = 0; i < existingMovieArr.length; i++) {
         if(movieToStore === existingMovieArr[i].movieNameStored) {
+            previousMovies.innerHTML = "";
             displayPreviousMovies();
             return;
         }
