@@ -78,6 +78,10 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     console.log(storageObj);
     // existingmovieArr will get an array of onjects from local storage, or if empty will give empty array. We can add another movie as only member of the array if we prefer to have a default movie on loading)
     const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [];
+    //check if array has > 9 members, and if so pop off last member
+    if(existingMovieArr.length > 9) {
+        existingMovieArr.shift();
+    }
     // check to see if movie already exists in localStorage and if so do not store again.
     for(let i = 0; i < existingMovieArr.length; i++) {
         if(movieToStore === existingMovieArr[i].movieNameStored) {
@@ -153,22 +157,22 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
         
-        const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
-                'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
-            }};
-        fetch(url, options)
-        .then(res => res.json())
-        .then(data => {
-            movieStreamingArray = data;
-        })
+        // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+        //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+        //     }};
+        // fetch(url, options)
+        // .then(res => res.json())
+        // .then(data => {
+        //     movieStreamingArray = data;
+        // })
     
-        .then(() => {
-            console.log(movieStreamingArray);
-        }) 
+        // .then(() => {
+        //     console.log(movieStreamingArray);
+        // }) 
     })
   
 }
