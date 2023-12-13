@@ -100,7 +100,7 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     // Call fxn to display previous movies in DOM
     displayPreviousMovies();
 }
-
+//function to serch for a movie input by user from search bar
 function  searchMovies (movieInput) {
 
     document.querySelectorAll("li").forEach(function(liElement) {
@@ -176,9 +176,88 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     })
 }
 
+//function to serch for a movie clicked on from previous searches
+function  searchPreviousMovie (movieInput) {
+
+    document.querySelectorAll("li").forEach(function(liElement) {
+    liElement.textContent = "";
+});
+
+fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
+.then(res => res.json())
+.then(data => {
+    movieNameTestArray = data;
+})
+
+.then(() => {
+    console.log(movieNameTestArray);
+    let movieTitle = movieNameTestArray.Title;
+    let moviePoster = movieNameTestArray.Poster;
+    let movieSearchParams =["Actors", "Plot", "Rated", "year", "Runtime", "Director", "Writer", "Awards"];
+    // let movieSearchParams = [];
+    // if (inputActors.checked) {
+    //     movieSearchParams.push("Actors");
+    // }
+    // if (inputPlot.checked) {
+    //     movieSearchParams.push("Plot");
+    // }
+    // if (inputRating.checked) {
+    //     movieSearchParams.push("Rated");
+    // }
+    // if (inputYear.checked) {
+    //     movieSearchParams.push("Year");
+    // }
+    // if (inputRuntime.checked) {
+    //     movieSearchParams.push("Runtime");
+    // }
+    // if (inputDirector.checked) {
+    //     movieSearchParams.push("Director");
+    // }
+    // if (inputWriters.checked) {
+    //     movieSearchParams.push("Writer");
+    // }
+    // if (inputAwards.checked) {
+    //     movieSearchParams.push("Awards");
+    // }
+    // console.log(movieSearchParams);
+
+    storeMovieName(movieTitle, moviePoster, movieSearchParams);
+    movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
+
+    //for loop to iterate through the move name test array using the search parameter array as keys.
+    //then it sends the info to the DOM.
+    for (let i = 0; i < movieSearchParams.length; i++) {
+        console.log(movieNameTestArray[movieSearchParams[i]]);
+        document.getElementById(`${movieSearchParams[i]}`).innerHTML = `<span id="${movieSearchParams[i]}span">${movieSearchParams[i]}: </span>${movieNameTestArray[movieSearchParams[i]]}`
+        console.log(`${movieSearchParams[i]}span`)
+ 
+    }
+    movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
+    
+    // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+    // const options = {
+    //     method: 'GET',
+    //     headers: {
+    //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+    //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+    //     }};
+    // fetch(url, options)
+    // .then(res => res.json())
+    // .then(data => {
+    //     movieStreamingArray = data;
+    // })
+
+    // .then(() => {
+    //     console.log(movieStreamingArray);
+    // }) 
+})
+}
+
 // function to insert previously searched movie into DOM when clicked
 let fetchPrevious = (event) => {
-    console.log(event.target);
+    let movieToGet = event.target.innerHTML;
+    console.log(movieToGet);
+    searchPreviousMovie(movieToGet);
 }
 
 const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
