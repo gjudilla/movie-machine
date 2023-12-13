@@ -157,22 +157,22 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
         
-        // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
-        // const options = {
-        //     method: 'GET',
-        //     headers: {
-        //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
-        //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
-        //     }};
-        // fetch(url, options)
-        // .then(res => res.json())
-        // .then(data => {
-        //     movieStreamingArray = data;
-        // })
+        const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+                'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+            }};
+        fetch(url, options)
+        .then(res => res.json())
+        .then(data => {
+            movieStreamingArray = data;
+        })
     
-        // .then(() => {
-        //     console.log(movieStreamingArray);
-        // }) 
+        .then(() => {
+            console.log(movieStreamingArray);
+        }) 
     })
   
 }
