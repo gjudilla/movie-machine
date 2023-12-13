@@ -29,8 +29,12 @@ let movieNameTestArray = [];
 let displayPreviousMovies = () => {
     // When 1st called on loading website there will be no movies in local storage so no change will be made to DOM
     if(!localStorage.movieArr) {
+        // displayPreviousMovies();
         return;
     } 
+    // else {
+    //     displayPreviousMovies();
+    // }
     // if movieArr exists in localStorage 1st add back the h2 for "Previous Searches", then parse the localStorage.movieArr into an array of objects
 
     const prevMovieH2 = document.createElement('h2');
@@ -77,6 +81,8 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     // check to see if movie already exists in localStorage and if so do not store again.
     for(let i = 0; i < existingMovieArr.length; i++) {
         if(movieToStore === existingMovieArr[i].movieNameStored) {
+            previousMovies.innerHTML = "";
+            displayPreviousMovies();
             return;
         }
     }
