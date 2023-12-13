@@ -50,7 +50,7 @@ function  searchMovies (movieInput) {
 
 // let moviePoster;
 
-fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieInput)
+fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     .then(res => res.json())
     .then(data => {
         movieNameTestArray = data;
@@ -62,30 +62,39 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&t=" + movieInput)
         let moviePoster = movieNameTestArray.Poster;
         let movieSearchParams = [];
         if (inputActors.checked) {
-            movieSearchParams.push(".Actors");
+            movieSearchParams.push("Actors");
         }
         if (inputPlot.checked) {
-            movieSearchParams.push(".Plot");
+            movieSearchParams.push("Plot");
         }
         if (inputRating.checked) {
-            movieSearchParams.push(".Rated");
+            movieSearchParams.push("Rated");
         }
         if (inputYear.checked) {
-            movieSearchParams.push(".Year");
+            movieSearchParams.push("Year");
         }
         if (inputRuntime.checked) {
-            movieSearchParams.push(".Runtime");
+            movieSearchParams.push("Runtime");
         }
         if (inputDirector.checked) {
-            movieSearchParams.push(".Director");
+            movieSearchParams.push("Director");
         }
         if (inputWriters.checked) {
-            movieSearchParams.push(".Writer");
+            movieSearchParams.push("Writer");
         }
         if (inputAwards.checked) {
-            movieSearchParams.push(".Awards");
+            movieSearchParams.push("Awards");
         }
         console.log(movieSearchParams);
+
+
+        //for loop to iterate through the move name test array using the search parameter array as keys.
+        //then it sends the info to the DOM.
+        for (let i = 0; i < movieSearchParams.length; i++) {
+            console.log(movieNameTestArray[movieSearchParams[i]]);
+            document.getElementById(`${movieSearchParams[i]}`).textContent = movieNameTestArray[movieSearchParams[i]]
+
+        }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
 
         
