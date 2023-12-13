@@ -19,8 +19,9 @@ const moviePosterDOMEl = document.querySelector("#moviePoster")
 // let movieTitle;
 // let moviePoster;
 // let movieSearchParams = [];
+//other variables
 let movieNameTestArray = [];
-// other variables
+let optionsToSend;
 
 
 //2 New Functions lines 27 to ~92
@@ -52,7 +53,7 @@ let displayPreviousMovies = () => {
             //Add attribute class="space-y-s"
             newMovieDiv.setAttribute('class', 'space-y-s');
             //Add actual button using inner HTML
-            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[i].movieNameStored}</button>`;
+            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700" data-options="${arrToPost[i].options}">${arrToPost[i].movieNameStored}</button>`;
             previousMovies.append(newMovieDiv);
         }
     } else {
@@ -61,21 +62,21 @@ let displayPreviousMovies = () => {
             const newMovieDiv = document.createElement('div');
             //Add attribute class="space-y-s" to containing div
             newMovieDiv.setAttribute('class', 'space-y-s');
-            //Add actual button and its classes/content using inner HTML then append to DOM
-            newMovieDiv.innerHTML = `<button class="movieBtn w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[j].movieNameStored}</button>`;
+            //Add actual button and its classes, data attribute (to store display options) & text content (the title) using inner HTML then append to DOM
+            newMovieDiv.innerHTML = `<button class="movieBtn w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700" data-options="${arrToPost[j].options}">${arrToPost[j].movieNameStored}</button>`;
             previousMovies.append(newMovieDiv);
         }
     }
 }
 // #2
 // function to store movie name, and associated info, in local storage & call new fxn to display last 10 searched movies in DOM. The display fxn to be called each time a new movie is searched for.
-const storeMovieName = (movieToStore, poster, domOptions) => {
+const storeMovieName = (movieToStore, domOptions) => {
     let storageObj = {
         movieNameStored: `${movieToStore}`,
-        options: `${domOptions}`,
-        posterUrl: `${poster}`
+        options: `${domOptions}`
+        // posterUrl: `${poster}`
     }
-    console.log(storageObj);
+
     // existingmovieArr will get an array of onjects from local storage, or if empty will give empty array. We can add another movie as only member of the array if we prefer to have a default movie on loading)
     const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [];
     //check if array has > 9 members, and if so pop off last member
@@ -83,13 +84,15 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
         existingMovieArr.shift();
     }
     // check to see if movie already exists in localStorage and if so do not store again.
-    for(let i = 0; i < existingMovieArr.length; i++) {
-        if(movieToStore === existingMovieArr[i].movieNameStored) {
-            previousMovies.innerHTML = "";
-            displayPreviousMovies();
-            return;
+    if(existingMovieArr.length) {
+        for(let i = 0; i < existingMovieArr.length; i++) {
+            if(movieToStore === existingMovieArr[i].movieNameStored) {
+                previousMovies.innerHTML = "";
+                displayPreviousMovies();
+                return;
+            }
         }
-    }
+    }   
     // if current movie is a new movie add it as an object to current array and set that array as the new localStorage array
     const newMovieArr = [...existingMovieArr, storageObj];
     localStorage.setItem('movieArr', JSON.stringify(newMovieArr));
@@ -144,7 +147,7 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         console.log(movieSearchParams);
 
-        storeMovieName(movieTitle, moviePoster, movieSearchParams);
+        storeMovieName(movieTitle, movieSearchParams);
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
 
         //for loop to iterate through the move name test array using the search parameter array as keys.
@@ -193,8 +196,8 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     console.log(movieNameTestArray);
     let movieTitle = movieNameTestArray.Title;
     let moviePoster = movieNameTestArray.Poster;
-    let movieSearchParams =["Actors", "Plot", "Rated", "year", "Runtime", "Director", "Writer", "Awards"];
-    // let movieSearchParams = [];
+    // let movieSearchParams =["Actors", "Plot", "Rated", "year", "Runtime", "Director", "Writer", "Awards"];
+    let movieSearchParams = optionsToSend;
     // if (inputActors.checked) {
     //     movieSearchParams.push("Actors");
     // }
@@ -221,8 +224,11 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     // }
     // console.log(movieSearchParams);
 
-    storeMovieName(movieTitle, moviePoster, movieSearchParams);
-    movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
+
+
+    //This line and all the lines below that are above MovieDisplayFxn call can go away
+    // storeMovieName(movieTitle, movieSearchParams);
+    // movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
 
     //for loop to iterate through the move name test array using the search parameter array as keys.
     //then it sends the info to the DOM.
@@ -256,7 +262,9 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
 // function to insert previously searched movie into DOM when clicked
 let fetchPrevious = (event) => {
     let movieToGet = event.target.innerHTML;
-    console.log(movieToGet);
+    let optionsToGet = event.target.dataset.options;
+    optionsToSend = optionsToGet.split(',')
+    console.log(movieToGet, optionsToSend);
     searchPreviousMovie(movieToGet);
 }
 
