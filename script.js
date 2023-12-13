@@ -99,7 +99,9 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
 
 function  searchMovies (movieInput) {
 
-// let moviePoster;
+    document.querySelectorAll("li").forEach(function(liElement) {
+        liElement.textContent = "";
+    });
 
 fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     .then(res => res.json())
@@ -145,15 +147,30 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         //then it sends the info to the DOM.
         for (let i = 0; i < movieSearchParams.length; i++) {
             console.log(movieNameTestArray[movieSearchParams[i]]);
-            document.getElementById(`${movieSearchParams[i]}`).textContent = movieNameTestArray[movieSearchParams[i]]
-
+            document.getElementById(`${movieSearchParams[i]}`).innerHTML = `<span id="${movieSearchParams[i]}span">${movieSearchParams[i]}: </span>${movieNameTestArray[movieSearchParams[i]]}`
+            console.log(`${movieSearchParams[i]}span`)
+     
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
-
-
         
+        const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+                'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+            }};
+        fetch(url, options)
+        .then(res => res.json())
+        .then(data => {
+            movieStreamingArray = data;
+        })
+    
+        .then(() => {
+            console.log(movieStreamingArray);
+        }) 
     })
-   
+  
 }
 
 const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
