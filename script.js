@@ -62,7 +62,7 @@ let displayPreviousMovies = () => {
             //Add attribute class="space-y-s" to containing div
             newMovieDiv.setAttribute('class', 'space-y-s');
             //Add actual button and its classes/content using inner HTML then append to DOM
-            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[j].movieNameStored}</button>`;
+            newMovieDiv.innerHTML = `<button class="movieBtn w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[j].movieNameStored}</button>`;
             previousMovies.append(newMovieDiv);
         }
     }
@@ -157,24 +157,28 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
         
-        const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
-                'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
-            }};
-        fetch(url, options)
-        .then(res => res.json())
-        .then(data => {
-            movieStreamingArray = data;
-        })
+        // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+        //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+        //     }};
+        // fetch(url, options)
+        // .then(res => res.json())
+        // .then(data => {
+        //     movieStreamingArray = data;
+        // })
     
-        .then(() => {
-            console.log(movieStreamingArray);
-        }) 
+        // .then(() => {
+        //     console.log(movieStreamingArray);
+        // }) 
     })
-  
+}
+
+// function to insert previously searched movie into DOM when clicked
+let fetchPrevious = (event) => {
+    console.log(event.target);
 }
 
 const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
@@ -183,7 +187,8 @@ const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     console.log(movieSearchParams);
 }
 
-
+// event listeners
+//event listener for submit button of the movie search form element
 searchMovie.addEventListener("click", function (event) {
 
     event.preventDefault();
@@ -192,3 +197,8 @@ searchMovie.addEventListener("click", function (event) {
     searchMovies(movieTitleChosen);
   }); 
 
+  // event listener for previously searched movies to lad them back into DOM when requested by user
+  previousMovies.addEventListener('click', function (event) {
+    event.preventDefault();
+    fetchPrevious(event);
+  });
