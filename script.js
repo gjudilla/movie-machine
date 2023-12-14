@@ -14,8 +14,10 @@ const inputRuntime = document.querySelector("#run-time");
 const inputDirector = document.querySelector("#director");
 const inputWriters = document.querySelector("#writers");
 const inputAwards = document.querySelector("#awards");
-const searchMovie = document.querySelector("#search")
-const moviePosterDOMEl = document.querySelector("#moviePoster")
+const searchMovie = document.querySelector("#search");
+const moviePosterDOMEl = document.querySelector("#moviePoster");
+const streamIconDOMEl = document.querySelector("a");
+const streamIconCpnDOMEl = document.querySelector("#streamIcon");
 // let movieTitle;
 // let moviePoster;
 // let movieSearchParams = [];
@@ -168,10 +170,48 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     
         .then(() => {
             console.log(movieStreamingArray);
+            let streamId = movieStreamingArray["result"]["0"]["streamingInfo"]["us"]["0"]["link"];
+            let streamCpn = movieStreamingArray["result"]["0"]["streamingInfo"]["us"]["0"]["service"]
+            console.log(streamCpn)
+            console.log(streamId)
+            
+            const streamingDisplayFxn = (streamId) => {
+                streamIconDOMEl.setAttribute("href", streamId)
+            }
+            switch (streamCpn) {
+                case "prime":
+                    streamIconCpnDOMEl.setAttribute("src", "https://cdn4.iconfinder.com/data/icons/logos-brands-in-colors/92/amazon-prime-logo-512.png")
+                    break;
+                case "disney":
+                    streamIconCpnDOMEl.setAttribute("src", "https://cdn1.iconfinder.com/data/icons/logos-brands-5/512/disney-plus-2-512.png")
+                    break;
+                case "netflix":
+                    streamIconCpnDOMEl.setAttribute("src", "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/227_Netflix_logo-512.png")
+                    break;
+                case "apple":
+                    streamIconCpnDOMEl.setAttribute("src", "https://cdn.iconscout.com/icon/free/png-512/free-apple-tv-1859952-1575940.png?f=webp&w=256")
+                    break;
+                case "paramount":
+                    streamIconCpnDOMEl.setAttribute("src", "https://seeklogo.com/images/P/paramount-logo-D0604AF7D3-seeklogo.com.png")
+                    break;
+                case "hbo":
+                    streamIconCpnDOMEl.setAttribute("src", "https://variety.com/wp-content/uploads/2023/04/Max-Logo-Warner-Bros.-Discovery.png")
+                    break;
+                case "hulu":
+                    streamIconCpnDOMEl.setAttribute("src", "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/hulu-icon.png")
+                    break;
+
+            }
+            streamingDisplayFxn(streamId);
         }) 
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
     })
   
 }
+
+
 
 const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     movieDisplayDiv.textContent = movieTitle
