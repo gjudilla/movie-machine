@@ -21,8 +21,9 @@ const streamIconCpnDOMEl = document.querySelector("#streamIcon");
 // let movieTitle;
 // let moviePoster;
 // let movieSearchParams = [];
+//other variables
 let movieNameTestArray = [];
-// other variables
+let optionsToSend;
 
 
 //2 New Functions lines 27 to ~92
@@ -54,7 +55,7 @@ let displayPreviousMovies = () => {
             //Add attribute class="space-y-s"
             newMovieDiv.setAttribute('class', 'space-y-s');
             //Add actual button using inner HTML
-            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[i].movieNameStored}</button>`;
+            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700" data-options="${arrToPost[i].options}">${arrToPost[i].movieNameStored}</button>`;
             previousMovies.append(newMovieDiv);
         }
     } else {
@@ -63,31 +64,37 @@ let displayPreviousMovies = () => {
             const newMovieDiv = document.createElement('div');
             //Add attribute class="space-y-s" to containing div
             newMovieDiv.setAttribute('class', 'space-y-s');
-            //Add actual button and its classes/content using inner HTML then append to DOM
-            newMovieDiv.innerHTML = `<button class="w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700">${arrToPost[j].movieNameStored}</button>`;
+            //Add actual button and its classes, data attribute (to store display options) & text content (the title) using inner HTML then append to DOM
+            newMovieDiv.innerHTML = `<button class="movieBtn w-full text-left px-4 py-2 text-sm text-white bg-teal-500 rounded-lg hover:bg-teal-700" data-options="${arrToPost[j].options}">${arrToPost[j].movieNameStored}</button>`;
             previousMovies.append(newMovieDiv);
         }
     }
 }
 // #2
 // function to store movie name, and associated info, in local storage & call new fxn to display last 10 searched movies in DOM. The display fxn to be called each time a new movie is searched for.
-const storeMovieName = (movieToStore, poster, domOptions) => {
+const storeMovieName = (movieToStore, domOptions) => {
     let storageObj = {
         movieNameStored: `${movieToStore}`,
-        options: `${domOptions}`,
-        posterUrl: `${poster}`
+        options: `${domOptions}`
+        // posterUrl: `${poster}`
     }
-    console.log(storageObj);
+
     // existingmovieArr will get an array of onjects from local storage, or if empty will give empty array. We can add another movie as only member of the array if we prefer to have a default movie on loading)
     const existingMovieArr = JSON.parse(localStorage.getItem('movieArr')) || [];
-    // check to see if movie already exists in localStorage and if so do not store again.
-    for(let i = 0; i < existingMovieArr.length; i++) {
-        if(movieToStore === existingMovieArr[i].movieNameStored) {
-            previousMovies.innerHTML = "";
-            displayPreviousMovies();
-            return;
-        }
+    //check if array has > 9 members, and if so pop off last member
+    if(existingMovieArr.length > 9) {
+        existingMovieArr.shift();
     }
+    // check to see if movie already exists in localStorage and if so do not store again.
+    if(existingMovieArr.length) {
+        for(let i = 0; i < existingMovieArr.length; i++) {
+            if(movieToStore === existingMovieArr[i].movieNameStored) {
+                previousMovies.innerHTML = "";
+                displayPreviousMovies();
+                return;
+            }
+        }
+    }   
     // if current movie is a new movie add it as an object to current array and set that array as the new localStorage array
     const newMovieArr = [...existingMovieArr, storageObj];
     localStorage.setItem('movieArr', JSON.stringify(newMovieArr));
@@ -98,7 +105,7 @@ const storeMovieName = (movieToStore, poster, domOptions) => {
     // Call fxn to display previous movies in DOM
     displayPreviousMovies();
 }
-
+//function to serch for a movie input by user from search bar
 function  searchMovies (movieInput) {
 
     document.querySelectorAll("li").forEach(function(liElement) {
@@ -142,7 +149,7 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         console.log(movieSearchParams);
 
-        storeMovieName(movieTitle, moviePoster, movieSearchParams);
+        storeMovieName(movieTitle, movieSearchParams);
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
 
         //for loop to iterate through the move name test array using the search parameter array as keys.
@@ -155,19 +162,20 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
         
-        const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
-                'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
-            }};
-        fetch(url, options)
-        .then(res => res.json())
-        .then(data => {
-            movieStreamingArray = data;
-        })
+        // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+        //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+        //     }};
+        // fetch(url, options)
+        // .then(res => res.json())
+        // .then(data => {
+        //     movieStreamingArray = data;
+        // })
     
+
         .then(() => {
             console.log(movieStreamingArray);
             let streamId = movieStreamingArray["result"]["0"]["streamingInfo"]["us"]["0"]["link"];
@@ -207,8 +215,97 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+
     })
-  
+}
+
+//function to serch for a movie clicked on from previous searches
+function  searchPreviousMovie (movieInput) {
+
+    document.querySelectorAll("li").forEach(function(liElement) {
+    liElement.textContent = "";
+});
+
+fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
+.then(res => res.json())
+.then(data => {
+    movieNameTestArray = data;
+})
+
+.then(() => {
+    console.log(movieNameTestArray);
+    let movieTitle = movieNameTestArray.Title;
+    let moviePoster = movieNameTestArray.Poster;
+    // let movieSearchParams =["Actors", "Plot", "Rated", "year", "Runtime", "Director", "Writer", "Awards"];
+    let movieSearchParams = optionsToSend;
+    // if (inputActors.checked) {
+    //     movieSearchParams.push("Actors");
+    // }
+    // if (inputPlot.checked) {
+    //     movieSearchParams.push("Plot");
+    // }
+    // if (inputRating.checked) {
+    //     movieSearchParams.push("Rated");
+    // }
+    // if (inputYear.checked) {
+    //     movieSearchParams.push("Year");
+    // }
+    // if (inputRuntime.checked) {
+    //     movieSearchParams.push("Runtime");
+    // }
+    // if (inputDirector.checked) {
+    //     movieSearchParams.push("Director");
+    // }
+    // if (inputWriters.checked) {
+    //     movieSearchParams.push("Writer");
+    // }
+    // if (inputAwards.checked) {
+    //     movieSearchParams.push("Awards");
+    // }
+    // console.log(movieSearchParams);
+
+
+
+    //This line and all the lines below that are above MovieDisplayFxn call can go away
+    // storeMovieName(movieTitle, movieSearchParams);
+    // movieDisplayFxn(movieTitle, moviePoster, movieSearchParams);
+
+    //for loop to iterate through the move name test array using the search parameter array as keys.
+    //then it sends the info to the DOM.
+    for (let i = 0; i < movieSearchParams.length; i++) {
+        console.log(movieNameTestArray[movieSearchParams[i]]);
+        document.getElementById(`${movieSearchParams[i]}`).innerHTML = `<span id="${movieSearchParams[i]}span">${movieSearchParams[i]}: </span>${movieNameTestArray[movieSearchParams[i]]}`
+        console.log(`${movieSearchParams[i]}span`)
+ 
+    }
+    movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
+    
+    // const url = 'https://streaming-availability.p.rapidapi.com/search/title?title=' + movieTitle + '&country=us&show_type=all&output_language=en'
+    // const options = {
+    //     method: 'GET',
+    //     headers: {
+    //         'X-RapidAPI-Key': 'd48595d92dmshbcd5f97df8dd50ep1c9f92jsnf437b45ada40',
+    //         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+    //     }};
+    // fetch(url, options)
+    // .then(res => res.json())
+    // .then(data => {
+    //     movieStreamingArray = data;
+    // })
+
+    // .then(() => {
+    //     console.log(movieStreamingArray);
+    // }) 
+})
+}
+
+// function to insert previously searched movie into DOM when clicked
+let fetchPrevious = (event) => {
+    let movieToGet = event.target.innerHTML;
+    let optionsToGet = event.target.dataset.options;
+    optionsToSend = optionsToGet.split(',')
+    console.log(movieToGet, optionsToSend);
+    searchPreviousMovie(movieToGet);
 }
 
 
@@ -219,7 +316,8 @@ const movieDisplayFxn = (movieTitle, moviePoster, movieSearchParams) => {
     console.log(movieSearchParams);
 }
 
-
+// event listeners
+//event listener for submit button of the movie search form element
 searchMovie.addEventListener("click", function (event) {
 
     event.preventDefault();
@@ -228,3 +326,8 @@ searchMovie.addEventListener("click", function (event) {
     searchMovies(movieTitleChosen);
   }); 
 
+  // event listener for previously searched movies to lad them back into DOM when requested by user
+  previousMovies.addEventListener('click', function (event) {
+    event.preventDefault();
+    fetchPrevious(event);
+  });
