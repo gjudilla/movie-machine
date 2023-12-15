@@ -99,19 +99,33 @@ function  searchMovies (movieInput) {
     document.querySelectorAll("li").forEach(function(liElement) {
         liElement.textContent = "";
     });
+    movieDisplayDiv.textContent = "Movie Not Found";
+    moviePosterDOMEl.setAttribute("src", "https://placehold.co/800x1100");
 
 fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
-    .then(res => res.json())
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+    return res.json();
+    })
     .then(data => {
+        console.log("new jiberish", data.Response)
+        if(data.Response === "False") {
+            console.log("this is an invalid response, try again");
+            movieTitleDOM.textContent = "";
+            moviePosterDOMEl.textContent = "";
+            throw new Error("THIS IS AN ERROR");
+        }
         movieNameTestArray = data;
     })
 
     .then(() => {
-        console.log(movieNameTestArray);
-        if(movieNameTestArray.Response === "false") {
-            console.log("this is an invalid choice, try again");
-            return;
-        }
+        console.log(movieNameTestArray, "jeibt");
+        // if(movieNameTestArray.Response === false) {
+        //     console.log("this is an invalid choice, try again");
+        //     return;
+        // }
         let movieTitle = movieNameTestArray.Title;
   
         let moviePoster = movieNameTestArray.Poster;
@@ -153,6 +167,10 @@ fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
         }
         movieDisplayFxn(movieTitle, moviePoster, movieSearchParams)
         findStreaming(movieTitle); 
+    })
+    .catch(error => {
+        console.error("this is an error", error.message);
+
     })
 }
 // function to connect streaming API
