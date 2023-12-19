@@ -102,7 +102,7 @@ function  searchMovies (movieInput) {
     movieDisplayDiv.textContent = "Movie Not Found";
     moviePosterDOMEl.setAttribute("src", "https://placehold.co/800x1100");
 
-fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
+fetch("https://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
     .then(res => {
         if(!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
