@@ -238,7 +238,7 @@ function  searchPreviousMovie (movieInput) {
     liElement.textContent = "";
 });
 
-fetch("http://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
+fetch("https://www.omdbapi.com/?apikey=60ccc490&plot=full&t=" + movieInput)
 .then(res => res.json())
 .then(data => {
     movieNameTestArray = data;
